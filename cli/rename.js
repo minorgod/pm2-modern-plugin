@@ -49,18 +49,32 @@ function main({slug, rootNamespace, pluginName, githubUserName}) {
     const originalPluginNamespace = 'PluginNamespace';
     const originalPluginName = 'PLUGIN_NAME';
     const slugPlaceholder = 'pm2-modern-plugin';
+    const slugPlaceholderUpper = 'PM2_MODERN_PLUGIN';
+    const slugPlaceholderUpperShort = 'PM2_MODERN';
     const GithubUserNamePlaceholder = 'github-username';
+    const actionPrefixPlaceholder = 'ACTION_PREFIX'
 
     const replacements = {
         [slugPlaceholder]: slug,
+        [slugPlaceholderUpper]: slug.toUpperCase(),
+        [slugPlaceholderUpperShort]: slug.toUpperCase(),
         [originalNamespace]: rootNamespace,
         [originalPluginName]: pluginName,
         [originalPluginNamespace]: pluginName,
         [GithubUserNamePlaceholder]: githubUserName,
+        [actionPrefixPlaceholder]: slug
     };
 
     const targetDirs = ['classes', 'src', 'tests'];
-    const targetFilenames = ['composer.json', 'package.json', 'README.md', ];
+    const targetFilenames = ['composer.json', 'package.json', 'README.md', `${slug}.php`];
+
+    // Change filename for ${SlugPlaceholder}.php to ${slug}.php
+    const slugFilename = `${slugPlaceholder}.php`;
+    if (shell.test('-f', slugFilename)) {
+        shell.mv(slugFilename, `${slug}.php`);
+    } else {
+        console.log(`Could not find ${slugFilename} to rename`);
+    }
 
     ['php', 'js', 'json', 'md', 'txt', 'css'].forEach(fileType => {
         changeNameInFiles({fileType, replacements, targetDirs});
@@ -73,13 +87,6 @@ function main({slug, rootNamespace, pluginName, githubUserName}) {
         });
     });
 
-    // Change filename for ${SlugPlaceholder}.php to ${slug}.php
-    const slugFilename = `${slugPlaceholder}.php`;
-    if (shell.test('-f', slugFilename)) {
-        shell.mv(slugFilename, `${slug}.php`);
-    } else {
-        console.log(`Could not find ${slugFilename} to rename`);
-    }
 
 }
 
