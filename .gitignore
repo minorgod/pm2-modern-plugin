@@ -7,3 +7,4 @@
 /wordpress/
 build
 .phpunit.result.cache
+.idea
