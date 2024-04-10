@@ -43,9 +43,9 @@ const SettingsForm = () => {
 				<FormTable>
 					<>
 						<ApiKeyField
-							value={ values.key }
+							value={ values.apiKey }
 							onChange={ ( value ) =>
-								setValues( { ...values, key: value } )
+								setValues( { ...values, apiKey: value } )
 							}
 							isSaving={ isSaving }
 						/>

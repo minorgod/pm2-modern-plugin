@@ -16,7 +16,7 @@ const ApiKeyField = ( { value, onChange, isSaving } ) => {
 				value={ value }
 				onChange={ onChange }
 			/>
-			{ ! isSaving ? <Spinner /> : null }
+			{ isSaving ? <Spinner /> : null }
 		</FieldTr>
 	);
 };
